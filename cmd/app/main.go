@@ -1,14 +1,24 @@
+// @title Beauty Salon Event Bus API
+// @version 1.0
+// @description Beauty salon appointment management service
+// @host localhost:8080
+// @BasePath /
 package main
 
 import (
 	"context"
-	"local-event-bus/internal/config"
-	"local-event-bus/internal/httpserver"
 	"log"
 	"net/http"
 	"os/signal"
 	"syscall"
 	"time"
+
+	httpSwagger "github.com/swaggo/http-swagger"
+
+	_ "local-event-bus/docs"
+
+	"local-event-bus/internal/config"
+	"local-event-bus/internal/httpserver"
 )
 
 func main() {
@@ -18,6 +28,7 @@ func main() {
 	mux := http.NewServeMux()
 
 	httpserver.Register(mux)
+	mux.Handle("GET /swagger/", httpSwagger.WrapHandler)
 
 	cfg := config.Load()
 

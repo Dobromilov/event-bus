@@ -1,0 +1,96 @@
+basePath: /
+definitions:
+  httpserver.CreateAppointmentRequest:
+    properties:
+      client:
+        type: string
+      service:
+        type: string
+    type: object
+  models.Appointment:
+    properties:
+      client:
+        type: string
+      created_at:
+        type: string
+      id:
+        type: integer
+      service:
+        type: string
+      status:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: Beauty salon appointment management service
+  title: Beauty Salon Event Bus API
+  version: "1.0"
+paths:
+  /appointments:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Appointment'
+            type: array
+      summary: List appointments
+      tags:
+      - appointments
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: appointment
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/httpserver.CreateAppointmentRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Appointment'
+      summary: Create appointment
+      tags:
+      - appointments
+  /appointments/{id}:
+    get:
+      parameters:
+      - description: appointment id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Appointment'
+      summary: Get appointment by id
+      tags:
+      - appointments
+  /appointments/{id}/complete:
+    post:
+      parameters:
+      - description: appointment id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+      summary: Complete appointment
+      tags:
+      - appointments
+swagger: "2.0"
